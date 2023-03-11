@@ -1,34 +1,15 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Button, Text } from '@ui-kitten/components'
 import { Image } from 'expo-image'
-import React, { useRef, useState } from 'react'
-import {
-  Dimensions,
-  StyleSheet,
-  View,
-  ViewComponent,
-  useWindowDimensions
-} from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
+import { LoggedOutStackParamsList } from '../../types/navigator/LoggedOutNavigatior'
 
-const renderCarouselItem = ({ item: { image, heading, additionalText } }) => (
-  <View style={{ height: '60%', width: '100%' }}>
-    <Image source={image} style={{ height: 420 }} contentFit="cover" />
-    <View style={{ paddingLeft: 32, paddingRight: 32, alignContent: 'center' }}>
-      <Text
-        category="h4"
-        style={{ marginTop: 16, marginBottom: 8, textAlign: 'center' }}
-      >
-        {heading}
-      </Text>
-      <Text category="p1" style={{ textAlign: 'center' }}>
-        {additionalText}
-      </Text>
-    </View>
-  </View>
-)
+type Props = NativeStackScreenProps<LoggedOutStackParamsList, 'Onboarding'>
 
-export function OnboardingScreen() {
+export function OnboardingScreen(props: Props) {
   const s = useSafeAreaInsets()
   const { width: screenWidth, height: screenHeight } = useWindowDimensions()
   const [activeSlide, setActiveSlide] = useState(0)
@@ -115,12 +96,21 @@ export function OnboardingScreen() {
             appearance="outline"
             status="basic"
             size="large"
+            onPress={() => {
+              props.navigation.navigate('Login')
+            }}
           >
             Log In
           </Button>
         </View>
         <View style={styles.singleButtonContainer}>
-          <Button style={styles.ctaButton} size="large">
+          <Button
+            style={styles.ctaButton}
+            size="large"
+            onPress={() => {
+              props.navigation.navigate('Signup')
+            }}
+          >
             Sign Up
           </Button>
         </View>
@@ -144,3 +134,24 @@ const styles = StyleSheet.create({
     width: '50%'
   }
 })
+
+function renderCarouselItem({ item: { image, heading, additionalText } }) {
+  return (
+    <View style={{ height: '60%', width: '100%' }}>
+      <Image source={image} style={{ height: 420 }} contentFit="cover" />
+      <View
+        style={{ paddingLeft: 32, paddingRight: 32, alignContent: 'center' }}
+      >
+        <Text
+          category="h4"
+          style={{ marginTop: 16, marginBottom: 8, textAlign: 'center' }}
+        >
+          {heading}
+        </Text>
+        <Text category="p1" style={{ textAlign: 'center' }}>
+          {additionalText}
+        </Text>
+      </View>
+    </View>
+  )
+}

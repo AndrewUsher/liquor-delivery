@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native'
 import { Icon } from '@ui-kitten/components'
 import { AccountScreen } from './AccountScreen'
 import { HomeScreen } from './HomeScreen'
@@ -8,9 +7,12 @@ import { useAuthState } from '../stores/auth'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { OnboardingScreen } from './LoggedOut/Onboarding'
 import { StatusBar } from 'expo-status-bar'
+import { SignupScreen } from './LoggedOut/Signup'
+import { LoginScreen } from './LoggedOut/Login'
+import { LoggedOutStackParamsList } from '../types/navigator/LoggedOutNavigatior'
 
 const Tab = createBottomTabNavigator()
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator<LoggedOutStackParamsList>()
 
 export function Root() {
   const isLoggedIn = useAuthState((state) => state.isLoggedIn)
@@ -51,6 +53,8 @@ export function Root() {
             name="Onboarding"
             component={OnboardingScreen}
           ></Stack.Screen>
+          <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
+          <Stack.Screen name="Signup" component={SignupScreen}></Stack.Screen>
         </Stack.Navigator>
       )}
     </>
