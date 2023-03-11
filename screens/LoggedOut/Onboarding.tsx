@@ -6,14 +6,14 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import { LoggedOutStackParamsList } from '../../types/navigator/LoggedOutNavigatior'
+import { ArrowRightIcon } from '../../components/Icons/ArrowRight'
 
 type Props = NativeStackScreenProps<LoggedOutStackParamsList, 'Onboarding'>
 
 export function OnboardingScreen(props: Props) {
   const s = useSafeAreaInsets()
-  const { width: screenWidth, height: screenHeight } = useWindowDimensions()
+  const { width: screenWidth } = useWindowDimensions()
   const [activeSlide, setActiveSlide] = useState(0)
-  const [bottomContainerHeight, setBottomContainerHeight] = useState(0)
 
   const carouselData = [
     {
@@ -84,49 +84,30 @@ export function OnboardingScreen(props: Props) {
         />
       </View>
 
-      <View
-        style={[styles.ctaButtonsContainer, { bottom: s.bottom }]}
-        onLayout={(e) => {
-          setBottomContainerHeight(e.nativeEvent.layout.height)
-        }}
-      >
-        <View style={styles.singleButtonContainer}>
-          <Button
-            style={styles.ctaButton}
-            appearance="outline"
-            status="basic"
-            size="large"
-            onPress={() => {
-              props.navigation.navigate('Login')
-            }}
-          >
-            Log In
-          </Button>
-        </View>
-        <View style={styles.singleButtonContainer}>
-          <Button
-            style={styles.ctaButton}
-            size="large"
-            onPress={() => {
-              props.navigation.navigate('Signup')
-            }}
-          >
-            Sign Up
-          </Button>
-        </View>
+      <View style={[styles.ctaButtonContainer, { bottom: s.bottom }]}>
+        <Button
+          size="large"
+          style={styles.ctaButton}
+          accessoryRight={<ArrowRightIcon animation="pulse" />}
+          onPress={() => {
+            props.navigation.navigate('Login')
+          }}
+        >
+          Get Started
+        </Button>
       </View>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  ctaButton: {
-    width: '100%'
-  },
-  ctaButtonsContainer: {
+  ctaButtonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    paddingHorizontal: 16,
     position: 'absolute'
+  },
+  ctaButton: {
+    flex: 1
   },
   singleButtonContainer: {
     flex: 1,

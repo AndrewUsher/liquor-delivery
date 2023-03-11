@@ -7,7 +7,6 @@ import { useAuthState } from '../stores/auth'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { OnboardingScreen } from './LoggedOut/Onboarding'
 import { StatusBar } from 'expo-status-bar'
-import { SignupScreen } from './LoggedOut/Signup'
 import { LoginScreen } from './LoggedOut/Login'
 import { LoggedOutStackParamsList } from '../types/navigator/LoggedOutNavigatior'
 
@@ -54,7 +53,6 @@ export function Root() {
             component={OnboardingScreen}
           ></Stack.Screen>
           <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>
-          <Stack.Screen name="Signup" component={SignupScreen}></Stack.Screen>
         </Stack.Navigator>
       )}
     </>
