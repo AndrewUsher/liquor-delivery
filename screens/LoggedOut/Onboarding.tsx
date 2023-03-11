@@ -58,8 +58,21 @@ export function OnboardingScreen() {
     <SafeAreaView style={{ flex: 1 }}>
       <View
         style={{
-          height: screenHeight - s.bottom * 3 - s.top - bottomContainerHeight
+          height: 60,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 64,
+          paddingTop: 64
         }}
+      >
+        <View style={{ width: 80, height: 80, backgroundColor: 'blue' }}></View>
+      </View>
+      <View
+        style={
+          {
+            // flex: 5
+          }
+        }
       >
         <Carousel
           data={carouselData}
@@ -68,20 +81,21 @@ export function OnboardingScreen() {
           sliderWidth={screenWidth}
           removeClippedSubviews={false}
           containerCustomStyle={{
-            marginTop: 128
+            flexGrow: 1,
+            paddingBottom: 20
           }}
           onSnapToItem={setActiveSlide}
         />
       </View>
-      <View>
+      <View style={{ flex: 1 }}>
         <Pagination
           dotsLength={carouselData.length}
           activeDotIndex={activeSlide}
           dotStyle={{
-            width: 10,
-            height: 10,
-            borderRadius: 5,
-            marginHorizontal: 8,
+            width: 8,
+            height: 8,
+            borderRadius: 4,
+            marginHorizontal: 4,
             backgroundColor: 'rgba(0, 0, 0, 0.92)'
           }}
           inactiveDotOpacity={0.4}
