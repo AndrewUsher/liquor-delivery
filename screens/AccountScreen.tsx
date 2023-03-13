@@ -13,6 +13,8 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AccountSection } from '../components/Account/AccountSection'
 import { commonStyles } from '../styles/common'
+import { magicAuth } from '../lib/auth/magicAuth'
+import { useAuthState } from '../stores/auth'
 
 const appearanceOptionsList = [
   {
@@ -40,7 +42,8 @@ const accountOptionsList = [
   }
 ]
 function AccountSettings() {
-  const theme = useTheme()
+  const setAuthState = useAuthState((state) => state.setAuthState)
+
   return (
     <View>
       <View
@@ -65,7 +68,15 @@ function AccountSettings() {
           styles.buttonContainer
         ]}
       >
-        <Button status="danger">LOGOUT</Button>
+        <Button
+          status="danger"
+          onPress={async () => {
+            await magicAuth.user.logout()
+            setAuthState(false)
+          }}
+        >
+          LOGOUT
+        </Button>
       </View>
     </View>
   )
