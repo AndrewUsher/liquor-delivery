@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native'
+import React from 'react'
+import * as SplashScreen from 'expo-splash-screen'
+import { StyleSheet, View } from 'react-native'
 import { Icon } from '@ui-kitten/components'
 import { AccountScreen } from './AccountScreen'
 import { HomeScreen } from './HomeScreen'
@@ -9,12 +11,45 @@ import { OnboardingScreen } from './LoggedOut/Onboarding'
 import { StatusBar } from 'expo-status-bar'
 import { LoginScreen } from './LoggedOut/Login'
 import { LoggedOutStackParamsList } from '../types/navigator/LoggedOutNavigatior'
+import { magicAuth } from '../lib/auth/magicAuth'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator<LoggedOutStackParamsList>()
 
+SplashScreen.preventAutoHideAsync()
+
 export function Root() {
   const isLoggedIn = useAuthState((state) => state.isLoggedIn)
+  const setAuthState = useAuthState((state) => state.setAuthState)
+  const [appIsReady, setAppIsReady] = React.useState(false)
+
+  React.useEffect(() => {
+    async function prepareApp() {
+      try {
+        const isLoggedIn = await magicAuth.user.isLoggedIn()
+
+        if (isLoggedIn) {
+          setAuthState(true)
+        }
+      } catch (err) {
+        console.log(err)
+      } finally {
+        setAppIsReady(true)
+      }
+    }
+
+    prepareApp()
+  }, [])
+
+  React.useEffect(() => {
+    async function hideSplashScreen() {
+      await SplashScreen.hideAsync()
+    }
+
+    if (appIsReady) {
+      hideSplashScreen()
+    }
+  }, [appIsReady])
 
   return (
     <>
