@@ -15,6 +15,7 @@ type FormData = {
 export function LoginScreen() {
   const { control, handleSubmit } = useForm()
   const setAuthState = useAuthState((state) => state.setAuthState)
+  const setUserInfo = useAuthState((state) => state.setUserInfo)
 
   const onSubmit = async (values) => {
     try {
@@ -22,6 +23,8 @@ export function LoginScreen() {
         email: values.email
       })
       setAuthState(true)
+      const userInfo = await magicAuth.user.getMetadata()
+      setUserInfo(userInfo)
       // TODO: Persist user ID to DB
     } catch (err) {
       console.log({ err })

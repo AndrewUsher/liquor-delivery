@@ -16,13 +16,6 @@ import { commonStyles } from '../styles/common'
 import { magicAuth } from '../lib/auth/magicAuth'
 import { useAuthState } from '../stores/auth'
 
-const appearanceOptionsList = [
-  {
-    onPress: () => {},
-    text: 'Dark Mode'
-  }
-]
-
 const accountOptionsList = [
   {
     onPress: () => {},
@@ -43,6 +36,7 @@ const accountOptionsList = [
 ]
 function AccountSettings() {
   const setAuthState = useAuthState((state) => state.setAuthState)
+  const userInfo = useAuthState((state) => state.userInfo)
 
   return (
     <View>
@@ -51,17 +45,14 @@ function AccountSettings() {
       >
         <Text category="h2">Hello, Andrew</Text>
         <Text category="s1">
-          Email address: <Text category="label">a@gmail.com</Text>
+          Email address: <Text category="label">{userInfo?.email}</Text>
         </Text>
       </View>
       <AccountSection
         sectionTitle="Account Info"
         optionsList={accountOptionsList}
       />
-      <AccountSection
-        sectionTitle="Appearance"
-        optionsList={appearanceOptionsList}
-      />
+
       <View
         style={[
           commonStyles.horizontalPaddingContainer,

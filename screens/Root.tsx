@@ -1,6 +1,6 @@
 import React from 'react'
 import * as SplashScreen from 'expo-splash-screen'
-import { StyleSheet, View } from 'react-native'
+import { LogBox, StyleSheet, View } from 'react-native'
 import { Icon } from '@ui-kitten/components'
 import { AccountScreen } from './AccountScreen'
 import { HomeScreen } from './HomeScreen'
@@ -17,6 +17,7 @@ const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator<LoggedOutStackParamsList>()
 
 SplashScreen.preventAutoHideAsync()
+LogBox.ignoreAllLogs()
 
 export function Root() {
   const isLoggedIn = useAuthState((state) => state.isLoggedIn)
@@ -30,6 +31,7 @@ export function Root() {
 
         if (isLoggedIn) {
           setAuthState(true)
+          const userData = await magicAuth.user.getMetadata()
         }
       } catch (err) {
         console.log(err)
