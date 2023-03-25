@@ -22,6 +22,7 @@ LogBox.ignoreAllLogs()
 export function Root() {
   const isLoggedIn = useAuthState((state) => state.isLoggedIn)
   const setAuthState = useAuthState((state) => state.setAuthState)
+  const setUserInfo = useAuthState((state) => state.setUserInfo)
   const [appIsReady, setAppIsReady] = React.useState(false)
 
   React.useEffect(() => {
@@ -31,7 +32,8 @@ export function Root() {
 
         if (isLoggedIn) {
           setAuthState(true)
-          const userData = await magicAuth.user.getMetadata()
+          const userInfo = await magicAuth.user.getMetadata()
+          setUserInfo(userInfo)
         }
       } catch (err) {
         console.log(err)
